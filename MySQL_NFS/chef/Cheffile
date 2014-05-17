@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-#^syntax detection
 
 site 'http://community.opscode.com/api/v1'
 
@@ -7,13 +6,5 @@ cookbook 'mysql'
 cookbook 'co-nfs',
     :git => 'https://github.com/cloudops/cookbook_co-nfs'
 
-# cookbook 'chef-client'
-
-# cookbook 'apache2', '>= 1.0.0'
-
-# cookbook 'rvm',
-#   :git => 'https://github.com/fnichol/chef-rvm'
-
-# cookbook 'postgresql',
-#   :git => 'https://github.com/findsyou/cookbooks',
-#   :ref => 'postgresql-improvements'
+cookbook 'nat-router',
+	:git => 'http://github.com/imduffy15/cookbook_nat-router'
