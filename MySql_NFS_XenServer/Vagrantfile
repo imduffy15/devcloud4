@@ -52,7 +52,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Brings up a XenServer hypervisor.
   #
   config.vm.define "xenserver" do |xenserver|
-    xenserver.vm.box = "xenserver"
+    xenserver.vm.box = "duffy/xenserver"
 
     xenserver.vm.provision "shell" do |s|
       s.path = "xenserver/reset-network.sh"
