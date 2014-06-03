@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+site 'http://community.opscode.com/api/v1'
+
+cookbook 'mysql'
+cookbook 'co-nfs',
+    :git => 'https://github.com/cloudops/cookbook_co-nfs'
+
+cookbook 'nat-router',
+	:git => 'http://github.com/imduffy15/cookbook_nat-router'
