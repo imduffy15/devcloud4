@@ -4,3 +4,6 @@
 [submodule "cookbook_nat-router"]
 	path = cookbook_nat-router
 	url = git@github.com:imduffy15/cookbook_nat-router.git
+[submodule "cookbook_cloudstack"]
+	path = cookbook_cloudstack
+	url = git@github.com:imduffy15/cookbook_cloudstack.git
