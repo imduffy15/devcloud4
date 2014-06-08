@@ -32,19 +32,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     management.vm.provision "chef_solo" do |chef|
       chef.cookbooks_path = ["management/cookbooks"]
 
-      chef.json = {
-          "mysql" => {
-            "server_root_password" => "",
-            "server_repl_password" => "",
-            "server_debian_password" => "",
-            "allow_remote_root" => true,
-          },
-          "nfs" => {
-            "exports" => [
-              "/exports *(rw,async,no_root_squash)"
-            ]
-          }
-      }      
+      chef.run_list = [
+         "recipe[cloudstack::default]"
+      ]
     end
   end
 

@@ -7,3 +7,6 @@
 [submodule "cookbook_cloudstack"]
 	path = cookbook_cloudstack
 	url = git@github.com:imduffy15/cookbook_cloudstack.git
+[submodule "cloudstack"]
+	path = cloudstack
+	url = https://github.com/apache/cloudstack.git
