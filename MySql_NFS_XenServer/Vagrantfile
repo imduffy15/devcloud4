@@ -1,46 +1,59 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.require_version ">= 1.5.0"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-
-  ##
-  # Brings up a management server, listening on 192.168.56.5
-  # It provides Mysql, NFS and a gateway.
-  #
   config.vm.define "management" do |management|
     management.vm.box = "chef/centos-6.5"
 
-    # Set host only network
-    management.vm.network :private_network, :auto_config => true , :ip => "192.168.56.5"
+    management.vm.network :private_network, :auto_config => true, :ip => "192.168.56.5"
     management.vm.network "forwarded_port", guest: 3306, host: 3306
 
-    # Set ram on VM.
     management.vm.provider "virtualbox" do |v|
       v.customize ["modifyvm", :id, "--memory", 512]
     end
 
-    # Install Chef
     management.omnibus.chef_version = :latest
-  
-    # Download the required cookbooks
+
+    if Vagrant.has_plugin?("vagrant-cachier")
+      management.cache.scope = :box
+      management.cache.auto_detect = true
+      management.omnibus.cache_packages = true
+    end
+
     management.librarian_chef.cheffile_dir = "management"
 
     management.vm.provision "chef_solo" do |chef|
       chef.cookbooks_path = ["management/cookbooks"]
 
       chef.run_list = [
-         "recipe[cloudstack::default]"
+          "recipe[cloudstack::default]"
       ]
+
+
+      chef.json = {
+          "cloudstack" => {
+              "systemvms" => [
+                  {
+                      "id" => 1,
+                      "hypervisor" => "xenserver",
+                      "url" => "http://10.0.2.2:8000/systemvmtemplate-xen.vhd.bz2"
+                  }
+              ],
+              "storage" => {
+                  "temporary" => "/tmp/vagrant-cache/cloudstack"
+              }
+          }
+      }
+
+
     end
   end
 
-  ##
-  # Brings up a XenServer hypervisor.
-  #
   config.vm.define "xenserver" do |xenserver|
     xenserver.vm.box = "duffy/xenserver"
 

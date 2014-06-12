@@ -3,8 +3,8 @@
 site 'http://community.opscode.com/api/v1'
 
 cookbook 'nat-router',
-	:git => 'http://github.com/imduffy15/cookbook_nat-router'
+         :git => 'http://github.com/imduffy15/cookbook_nat-router'
 
 cookbook 'cloudstack',
-    :git => 'https://github.com/imduffy15/cookbook_cloudstack.git'
+         :git => 'https://github.com/imduffy15/cookbook_cloudstack.git'
 
