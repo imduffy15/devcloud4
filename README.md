@@ -5,29 +5,39 @@
 - Install `ruby` and `git`
 - Download and install [Vagrant](https://www.vagrantup.com/downloads.html)
 - Install Vagrant plugins:
-
-    vagrant plugin install vagrant-omnibus
-    vagrant plugin install vagrant-librarian-chef
+```
+vagrant plugin install vagrant-omnibus
+vagrant plugin install vagrant-librarian-chef
+```
 
 ## Setting up repository
 
 - Clone this repository:
-
-    git clone https://github.com/imduffy15/GSoC-2014.git
-
+```
+git clone https://github.com/imduffy15/GSoC-2014.git
+```
 - Initialize or Update submodules as needed: (for updates lose the --init)
-
-    git submodule update --init packer-xenserver
-    git submodule update --init cookbook_nat-router
-    git submodule update --init cookbook_cloudstack
-    git submodule update --init cloudstack
+```
+git submodule update --init packer-xenserver
+git submodule update --init cookbook_nat-router
+git submodule update --init cookbook_cloudstack
+git submodule update --init cloudstack
+```
 
 ## Start MySQL, NFS, Gateway and Xenserver Boxes
 
 From the root directory of this repo:
+```
+cd MySql_NFS_XenServer
+vagrant up
+```
 
-    cd MySql_NFS_XenServer
-    vagrant up
+## Common Issues around Vagrant
+
+- Unknown configuration section: There is probably a missing vagrant plugin. Check
+  and install plugins listed in the 'Getting Started' section.
+- 'Cannot forward the specified ports on this VM': There could be MySQL or some other
+  service running on the host OS causing vagrant to fail setting up local port forwarding.
 
 ## Cloudstack
 
