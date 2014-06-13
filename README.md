@@ -1,13 +1,33 @@
 # Rough usage....
 
+## Getting started
+
+- Install `ruby` and `git`
+- Download and install [Vagrant](https://www.vagrantup.com/downloads.html)
+- Install Vagrant plugins:
+
+    vagrant plugin install vagrant-omnibus
+    vagrant plugin install vagrant-librarian-chef
+
+## Setting up repository
+
+- Clone this repository:
+
+    git clone https://github.com/imduffy15/GSoC-2014.git
+
+- Initialize or Update submodules as needed: (for updates lose the --init)
+
+    git submodule update --init packer-xenserver
+    git submodule update --init cookbook_nat-router
+    git submodule update --init cookbook_cloudstack
+    git submodule update --init cloudstack
+
 ## Start MySQL, NFS, Gateway and Xenserver Boxes
 
 From the root directory of this repo:
 
-```
-cd MySql_NFS_XenServer
-vagrant up
-```
+    cd MySql_NFS_XenServer
+    vagrant up
 
 ## Cloudstack
 
