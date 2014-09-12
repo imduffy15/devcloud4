@@ -1,0 +1,59 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = '2'
+
+Vagrant.require_version '>= 1.5.0'
+
+unless Vagrant.has_plugin?('vagrant-librarian-chef')
+  raise 'vagrant-librarian-chef is not installed!'
+end
+
+unless Vagrant.has_plugin?('vagrant-omnibus')
+  raise 'vagrant-omnibus is not installed!'
+end
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.vm.define 'simulator' do |simulator|
+    simulator.vm.box = 'chef/centos-6.5'
+
+    # Port forward gui
+    simulator.vm.network 'forwarded_port', guest: 8080, host: 8080
+
+    # Port forward sql
+    simulator.vm.network 'forwarded_port', guest: 3306, host: 3306
+
+    # Port forward admin port
+    simulator.vm.network 'forwarded_port', guest: 8096, host: 8096
+
+    simulator.omnibus.chef_version = :latest
+
+    if Vagrant.has_plugin?('vagrant-cachier')
+      simulator.cache.scope = :box
+      simulator.cache.auto_detect = true
+      simulator.omnibus.cache_packages = true
+    end
+
+    simulator.librarian_chef.cheffile_dir = '../common/management'
+
+    simulator.vm.provision 'chef_solo' do |chef|
+      chef.cookbooks_path = ['../common/management/cookbooks']
+
+      chef.run_list = [
+          'recipe[cloudstack::database]',
+          'recipe[cloudstack::development-environment]',
+      ]
+
+      simulator.vm.provider 'virtualbox' do |v|
+        v.customize ['modifyvm', :id, '--memory', 1024]
+      end
+    end
+
+    ## Configure Simulator
+    simulator.vm.provision 'shell' do |s|
+      s.path = 'cloudstack-simulator.sh'
+    end
+
+  end
+end

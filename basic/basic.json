@@ -1,0 +1,91 @@
+{
+    "zones": [
+        {
+            "name": "DevCloud-Basic-01",
+            "enabled": "True",
+            "physical_networks": [
+                {
+                    "broadcastdomainrange": "Zone",
+                    "name": "Devcloud-Network-01",
+                    "traffictypes": [
+                        {
+                            "typ": "Guest"
+                        },
+                        {
+                            "typ": "Management"
+                        }
+                    ],
+                    "providers": [
+                        {
+                            "broadcastdomainrange": "ZONE",
+                            "name": "VirtualRouter"
+                        },
+                        {
+                            "broadcastdomainrange": "Pod",
+                            "name": "SecurityGroupProvider"
+                        }
+                    ]
+                }
+            ],
+            "dns2": "8.8.4.4",
+            "dns1": "8.8.8.8",
+            "securitygroupenabled": "true",
+            "localstorageenabled": "true",
+            "networktype": "Basic",
+            "pods": [
+                {
+                    "endip": "192.168.56.220",
+                    "name": "DevCloud-POD-01",
+                    "startip": "192.168.56.200",
+                    "guestIpRanges": [
+                        {
+                            "startip": "192.168.56.100",
+                            "endip": "192.168.56.199",
+                            "netmask": "255.255.255.0",
+                            "gateway": "192.168.56.5"
+                        }
+                    ],
+                    "netmask": "255.255.255.0",
+                    "clusters": [
+                        {
+                            "clustername": "DevCloud-CLUSTER-01",
+                            "hypervisor": "XenServer",
+                            "hosts": [
+                                {
+                                    "username": "root",
+                                    "url": "http://192.168.56.10/",
+                                    "password": "password"
+                                }
+                            ],
+                            "clustertype": "CloudManaged"
+                        }
+                    ],
+                    "gateway": "192.168.56.5"
+                }
+            ],
+            "internaldns1": "8.8.8.8",
+            "secondaryStorages": [
+                {
+                    "url": "nfs://192.168.56.5/exports/secondary",
+                    "provider": "NFS"
+                }
+            ]
+        }
+    ],
+    "logger": {
+        "LogFolderPath": "/tmp/"
+    },
+    "mgtSvr": [
+        {
+            "mgtSvrIp": "192.168.56.1",
+            "port": 8096
+        }
+    ],
+    "dbSvr": {
+        "dbSvr": "127.0.0.1",
+        "port": 3306,
+        "user": "cloud",
+        "passwd": "cloud",
+        "db": "cloud"
+    }
+}

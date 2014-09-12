@@ -1,0 +1,62 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = '2'
+
+Vagrant.require_version '>= 1.5.0'
+
+unless Vagrant.has_plugin?('vagrant-librarian-chef')
+  raise 'vagrant-librarian-chef is not installed!'
+end
+
+unless Vagrant.has_plugin?('vagrant-omnibus')
+  raise 'vagrant-omnibus is not installed!'
+end
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.vm.define 'xenserver' do |xenserver|
+    xenserver.vm.box = 'duffy/xenserver'
+
+    # Configure Interface
+    ## Configure Management Interface
+    xenserver.vm.provision 'shell' do |s|
+      s.path = '../common/xenserver/configure-network.sh'
+      s.args = %w(eth1 192.168.56.10 255.255.255.0 MGMT)
+    end
+
+  end
+
+  config.vm.define 'management' do |management|
+    management.vm.box = 'chef/centos-6.5'
+
+    management.vm.network :private_network, :auto_config => true, :ip => '192.168.56.5'
+
+    management.vm.network 'forwarded_port', guest: 3306, host: 3306
+    management.vm.network 'forwarded_port', guest: 8080, host: 8080
+
+    management.vm.provider 'virtualbox' do |v|
+      v.customize ['modifyvm', :id, '--memory', 2048]
+    end
+
+    management.omnibus.chef_version = :latest
+
+    if Vagrant.has_plugin?('vagrant-cachier')
+      management.cache.scope = :box
+      management.cache.auto_detect = true
+      management.omnibus.cache_packages = true
+    end
+
+    management.librarian_chef.cheffile_dir = '../common/management'
+
+    management.vm.provision 'chef_solo' do |chef|
+      chef.cookbooks_path = ['../common/management/cookbooks']
+
+      chef.run_list = [
+        'recipe[nat-router]',
+        'recipe[cloudstack::management-server]'
+      ]
+
+    end
+  end
+end

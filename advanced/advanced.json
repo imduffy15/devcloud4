@@ -1,0 +1,105 @@
+{
+    "zones": [
+        {
+            "name": "DevCloud-Advanced-01",
+            "guestcidraddress": "10.1.1.0/24",
+            "localstorageenabled": true,
+            "dns1": "8.8.8.8",
+            "physical_networks": [
+                {
+                    "broadcastdomainrange": "Zone",
+                    "vlan": "100-200",
+                    "name": "DevCloud-Network-01",
+                    "traffictypes": [
+                        {
+                            "xen": "GUEST",
+                            "typ": "Guest"
+                        },
+                        {
+                            "xen": "MGMT",
+                            "typ": "Management"
+                        },
+                        {
+                            "xen": "PUBLIC",
+                            "typ": "Public"
+                        }
+                    ],
+                    "providers": [
+                        {
+                            "broadcastdomainrange": "ZONE",
+                            "name": "VirtualRouter"
+                        },
+                        {
+                            "broadcastdomainrange": "ZONE",
+                            "name": "VpcVirtualRouter"
+                        },
+                        {
+                            "broadcastdomainrange": "ZONE",
+                            "name": "InternalLbVm"
+                        }
+                    ],
+                    "isolationmethods": [
+                        "VLAN"
+                    ]
+                }
+            ],
+            "ipranges": [
+                {
+                    "startip": "192.168.57.100",
+                    "endip": "192.168.57.120",
+                    "netmask": "255.255.255.0",
+                    "vlan": "untagged",
+                    "gateway": "192.168.57.5"
+                }
+            ],
+            "networktype": "Advanced",
+            "pods": [
+                {
+                    "startip": "192.168.56.100",
+                    "endip": "192.168.56.120",
+                    "name": "DevCloud-POD-01",
+                    "netmask": "255.255.255.0",
+                    "clusters": [
+                        {
+                            "clustername": "DevCloud-CLUSTER-01",
+                            "hypervisor": "XenServer",
+                            "hosts": [
+                                {
+                                    "username": "root",
+                                    "url": "http://192.168.56.10/",
+                                    "password": "password"
+                                }
+                            ],
+                            "clustertype": "CloudManaged"
+                        }
+                    ],
+                    "gateway": "192.168.56.5"
+                }
+            ],
+            "internaldns1": "8.8.8.8",
+            "secondaryStorages": [
+                {
+                    "url": "nfs://192.168.56.5/exports/secondary",
+                    "provider": "NFS",
+                    "details": [ ]
+                }
+            ]
+        }
+    ],
+    "logger": {
+        "LogFolderPath": "/tmp/"
+    },
+    "mgtSvr": [
+        {
+            "mgtSvrIp": "192.168.56.1",
+            "port": 8096
+        }
+    ],
+    "dbSvr": {
+        "dbSvr": "127.0.0.1",
+        "port": 3306,
+        "user": "cloud",
+        "passwd": "cloud",
+        "db": "cloud"
+    }
+}
