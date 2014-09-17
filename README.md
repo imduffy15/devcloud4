@@ -1,4 +1,4 @@
-# CLOUDSTACK-6114
+# Devcloud 4
 
 ## Introduction
 
@@ -12,6 +12,12 @@ The included VagrantFile will give you:
      - Router
 
  - XenServer 6.2
+
+## Issue reporting
+
+Please use the issue reporting feature on github for reporting any issues you experience.
+
+Github will email project authors and they will be able to assist best, going off to mailing lists, forums, question sites etc. is not helpful and will not benefit the quality of this project.
 
 ## Getting started
 
