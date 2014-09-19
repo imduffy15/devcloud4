@@ -73,11 +73,11 @@ Github will email project authors and they will be able to assist best, going of
     
     
     
-![Host only network](https://gist.githubusercontent.com/imduffy15/34d5b2fb6bb0d68d48c0/raw/Screen%20Shot%202014-06-16%20at%2019.23.04.png)
+![Host only network](http://ianduffy.ie/cloudstack/gsoc2014/Screen%20Shot%202014-06-16%20at%2019.23.04.png)
 
 
-![Host only network configuration ip IP](https://gist.github.com/imduffy15/34d5b2fb6bb0d68d48c0/raw/09e14e7e6b6c5918c0bb267f4fc925e04dbe44f4/Screen%20Shot%202014-06-16%20at%2019.22.58.png)
+![Host only network configuration ip IP](http://ianduffy.ie/cloudstack/gsoc2014/Screen%20Shot%202014-09-19%20at%2011.00.46.png)
 
 
-![Host only network configuration dhcp](https://gist.github.com/imduffy15/34d5b2fb6bb0d68d48c0/raw/66f5be5429638a3544f2a48719685e0f415b2322/Screen%20Shot%202014-06-16%20at%2019.23.00.png)
+![Host only network configuration dhcp](http://ianduffy.ie/cloudstack/gsoc2014/Screen%20Shot%202014-09-19%20at%2011.00.50.png)
 
