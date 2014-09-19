@@ -45,10 +45,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
 
     ## Tweak kernel
-    xenserver.configure("2") do |config|
-      config.vm.provision "shell",
-        inline: "sed -i -e 's/net.bridge.bridge-nf-call-iptables = 1/net.bridge.bridge-nf-call-iptables = 0/g' -e 's/net.bridge.bridge-nf-call-arptables = 1/net.bridge.bridge-nf-call-arptables = 0/g' /etc/sysctl.conf && /sbin/sysctl -p /etc/sysctl.conf"
-    end
+    xenserver.vm.provision "shell", inline: "sed -i -e 's/net.bridge.bridge-nf-call-iptables = 1/net.bridge.bridge-nf-call-iptables = 0/g' -e 's/net.bridge.bridge-nf-call-arptables = 1/net.bridge.bridge-nf-call-arptables = 0/g' /etc/sysctl.conf && /sbin/sysctl -p /etc/sysctl.conf"
 
     ## Map host only networks and the adapters
     xenserver.vm.provider 'virtualbox' do |v|
