@@ -7,19 +7,19 @@
 1. Configure your adapters as follows:
 
     ##### vboxnet0
-    - IPv4 IP address of 192.168.56.1
+    - IPv4 IP address of 192.168.22.1
     - Subnet of 255.255.255.0
     - DHCP server disabled
     
     ##### vboxnet1
-    - IPv4 IP address of 192.168.57.1
+    - IPv4 IP address of 192.168.23.1
     - Subnet of 255.255.255.0
     - DHCP server disabled
     
     
     
     ##### vboxnet2
-    - IPv4 IP address of 192.168.58.1
+    - IPv4 IP address of 192.168.24.1
     - Subnet of 255.255.255.0
     - DHCP server disabled
     
