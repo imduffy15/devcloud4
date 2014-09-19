@@ -90,7 +90,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       chef.cookbooks_path = ['../common/management/cookbooks']
 
       chef.run_list = [
-          'recipe[cloudstack::default]'
+        'recipe[nat-router]',
+        'recipe[cloudstack::management-server]'
       ]
 
       chef.json = {
