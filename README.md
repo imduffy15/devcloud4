@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The follow project aims to simplify getting a full Apache Cloudstack environment running on your machine.
+The follow project aims to simplify getting a full Apache CloudStack environment running on your machine. You can either take the easy ride and run `vagrant up` in either one of the 'binary installation' directories or compile CloudStack yourself. See for instructions in the 'basic' and 'advanced' directories.
 
 The included VagrantFile will give you:
 
