@@ -17,6 +17,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       s.args = %w(eth1 192.168.22.10 255.255.255.0 MGMT)
     end
 
+    ## Map host only networks and the adapters
+    xenserver.vm.provider 'virtualbox' do |v|
+      v.customize ['modifyvm', :id, '--nicpromisc2', 'allow-all']
+      v.customize ['modifyvm', :id, '--hostonlyadapter2', 'vboxnet0']
+      v.customize ['modifyvm', :id, '--nictype2', 'Am79C973']
+    end
+
   end
 
   config.vm.define 'management' do |management|
@@ -28,6 +35,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     management.vm.network 'forwarded_port', guest: 8080, host: 8080
 
     management.vm.provider 'virtualbox' do |v|
+      v.customize ['modifyvm', :id, '--hostonlyadapter2', 'vboxnet0']
+      v.customize ["modifyvm", :id, '--nictype2', 'Am79C973']
       v.customize ['modifyvm', :id, '--memory', 2048]
     end
 
