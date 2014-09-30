@@ -6,7 +6,7 @@ cookbook 'nat-router',
          :git => 'http://github.com/imduffy15/cookbook_nat-router'
 
 cookbook 'cloudstack',
-         :git => 'https://github.com/imduffy15/cookbook_cloudstack.git'
+         :git => 'https://github.com/imduffy15/cookbook_cloudstack.git',
 	 :ref => 'v0.0.5'
 
 cookbook 'python',
