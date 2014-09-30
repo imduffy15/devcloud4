@@ -29,7 +29,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ## Configure Management Interface
     xenserver.vm.provision 'shell' do |s|
       s.path = '../common/xenserver/configure-network.sh'
-      s.args = %w(eth1 192.168.22.10 255.255.255.0 MGMT)
+      s.args = %w(eth1 192.168.56.10 255.255.255.0 MGMT)
     end
 
   end
@@ -37,7 +37,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define 'management' do |management|
     management.vm.box = 'chef/centos-6.5'
 
-    management.vm.network :private_network, :auto_config => true, :ip => '192.168.22.5'
+    management.vm.network :private_network, :auto_config => true, :ip => '192.168.56.5'
 
     management.vm.network 'forwarded_port', guest: 3306, host: 3306
 

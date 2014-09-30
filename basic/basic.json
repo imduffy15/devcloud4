@@ -34,15 +34,15 @@
             "networktype": "Basic",
             "pods": [
                 {
-                    "endip": "192.168.22.220",
+                    "endip": "192.168.56.220",
                     "name": "DevCloud-POD-01",
-                    "startip": "192.168.22.200",
+                    "startip": "192.168.56.200",
                     "guestIpRanges": [
                         {
-                            "startip": "192.168.22.100",
-                            "endip": "192.168.22.199",
+                            "startip": "192.168.56.100",
+                            "endip": "192.168.56.199",
                             "netmask": "255.255.255.0",
-                            "gateway": "192.168.22.5"
+                            "gateway": "192.168.56.5"
                         }
                     ],
                     "netmask": "255.255.255.0",
@@ -53,20 +53,20 @@
                             "hosts": [
                                 {
                                     "username": "root",
-                                    "url": "http://192.168.22.10/",
+                                    "url": "http://192.168.56.10/",
                                     "password": "password"
                                 }
                             ],
                             "clustertype": "CloudManaged"
                         }
                     ],
-                    "gateway": "192.168.22.5"
+                    "gateway": "192.168.56.5"
                 }
             ],
             "internaldns1": "8.8.8.8",
             "secondaryStorages": [
                 {
-                    "url": "nfs://192.168.22.5/exports/secondary",
+                    "url": "nfs://192.168.56.5/exports/secondary",
                     "provider": "NFS"
                 }
             ]
@@ -77,7 +77,7 @@
     },
     "mgtSvr": [
         {
-            "mgtSvrIp": "192.168.22.1",
+            "mgtSvrIp": "192.168.56.1",
             "port": 8096
         }
     ],
