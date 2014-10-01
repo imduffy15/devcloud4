@@ -57,7 +57,7 @@ Github will email project authors and they will be able to assist best, going of
 1. Configure your adapters as follows:
 
    - On Windows, the adapternames are different, and map as follows:
-     - vboxnet0: VirtualBox Host-Only Ethernet Adapter 4
+     - vboxnet0: VirtualBox Host-Only Ethernet Adapter
      - vboxnet1: VirtualBox Host-Only Ethernet Adapter 2
      - vboxnet2: VirtualBox Host-Only Ethernet Adapter 3
     
