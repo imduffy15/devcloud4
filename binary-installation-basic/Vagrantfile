@@ -7,23 +7,35 @@ Vagrant.require_version '>= 1.5.0'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
+  is_windows = (RUBY_PLATFORM =~ /mswin|mingw|cygwin/)
+
   config.vm.define 'xenserver' do |xenserver|
     xenserver.vm.box = 'duffy/xenserver'
 
-    # Configure Interface
-    ## Configure Management Interface
-    xenserver.vm.provision 'shell' do |s|
-      s.path = '../common/xenserver/configure-network.sh'
-      s.args = %w(eth1 192.168.22.10 255.255.255.0 MGMT)
-    end
+    if is_windows
+      xenserver.vm.provision 'shell' do |s|
+        s.path = '..\common\xenserver\configure-network.sh'
+        s.args = %w(eth1 192.168.22.10 255.255.255.0 MGMT)
+      end
 
-    ## Map host only networks and the adapters
-    xenserver.vm.provider 'virtualbox' do |v|
-      v.customize ['modifyvm', :id, '--nicpromisc2', 'allow-all']
-      v.customize ['modifyvm', :id, '--hostonlyadapter2', 'vboxnet0']
-      v.customize ['modifyvm', :id, '--nictype2', 'Am79C973']
-    end
+      xenserver.vm.provider 'virtualbox' do |v|
+        v.customize ['modifyvm', :id, '--nicpromisc2', 'allow-all']
+        v.customize ['modifyvm', :id, '--hostonlyadapter2', 'VirtualBox Host-Only Ethernet Adapter']
+        v.customize ['modifyvm', :id, '--nictype2', 'Am79C973']
+      end
 
+    else
+      xenserver.vm.provision 'shell' do |s|
+        s.path = '../common/xenserver/configure-network.sh'
+        s.args = %w(eth1 192.168.22.10 255.255.255.0 MGMT)
+      end
+
+      xenserver.vm.provider 'virtualbox' do |v|
+        v.customize ['modifyvm', :id, '--nicpromisc2', 'allow-all']
+        v.customize ['modifyvm', :id, '--hostonlyadapter2', 'vboxnet0']
+        v.customize ['modifyvm', :id, '--nictype2', 'Am79C973']
+      end
+    end
   end
 
   config.vm.define 'management' do |management|
@@ -34,18 +46,31 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     management.vm.network 'forwarded_port', guest: 3306, host: 3306
     management.vm.network 'forwarded_port', guest: 8080, host: 8080
 
-    management.vm.provider 'virtualbox' do |v|
-      v.customize ['modifyvm', :id, '--hostonlyadapter2', 'vboxnet0']
-      v.customize ["modifyvm", :id, '--nictype2', 'Am79C973']
-      v.customize ['modifyvm', :id, '--memory', 2048]
+
+    if is_windows
+      management.vm.provider 'virtualbox' do |v|
+        v.customize ['modifyvm', :id, '--hostonlyadapter2', 'VirtualBox Host-Only Ethernet Adapter']
+        v.customize ["modifyvm", :id, '--nictype2', 'Am79C973']
+        v.customize ['modifyvm', :id, '--memory', 2048]
+      end
+      management.librarian_chef.cheffile_dir = '..\common\management'
+    else
+      management.vm.provider 'virtualbox' do |v|
+        v.customize ['modifyvm', :id, '--hostonlyadapter2', 'vboxnet0']
+        v.customize ["modifyvm", :id, '--nictype2', 'Am79C973']
+        v.customize ['modifyvm', :id, '--memory', 2048]
+      end
+      management.librarian_chef.cheffile_dir = '../common/management'
     end
 
     management.omnibus.chef_version = "11.16.0"
 
-    management.librarian_chef.cheffile_dir = '../common/management'
-
     management.vm.provision 'chef_solo' do |chef|
-      chef.cookbooks_path = ['../common/management/cookbooks']
+      if is_windows
+        chef.cookbooks_path = ['..\common\management\cookbooks']
+      else
+        chef.cookbooks_path = ['../common/management/cookbooks']
+      end
 
       chef.run_list = [
         'recipe[nat-router]',
