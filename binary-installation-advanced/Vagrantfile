@@ -15,6 +15,8 @@ end
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
+  is_windows = (RUBY_PLATFORM =~ /mswin|mingw|cygwin/)
+
   config.vm.define 'xenserver' do |xenserver|
     xenserver.vm.box = 'duffy/xenserver'
 
@@ -25,40 +27,74 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     xenserver.vm.network :private_network, :auto_config => false, :ip => '192.168.24.10'
 
     # Configure Interfaces
+    if is_windows
+      ## Configure Management Interface
+      xenserver.vm.provision 'shell' do |s|
+        s.path = '..\common\xenserver\configure-network.sh'
+        s.args = %w(eth1 192.168.22.10 255.255.255.0 MGMT)
+      end
 
-    ## Configure Management Interface
-    xenserver.vm.provision 'shell' do |s|
-      s.path = '../common/xenserver/configure-network.sh'
-      s.args = %w(eth1 192.168.22.10 255.255.255.0 MGMT)
-    end
+      ## Configure Public Interface
+      xenserver.vm.provision 'shell' do |s|
+        s.path = '..\common\xenserver\configure-network.sh'
+        s.args = %w(eth2 na na PUBLIC)
+      end
 
-    ## Configure Public Interface
-    xenserver.vm.provision 'shell' do |s|
-      s.path = '../common/xenserver/configure-network.sh'
-      s.args = %w(eth2 na na PUBLIC)
-    end
+      ## Configure Guest Interface
+      xenserver.vm.provision 'shell' do |s|
+        s.path = '..\common\xenserver\configure-network.sh'
+        s.args = %w(eth3 na na GUEST)
+      end
 
-    ## Configure Guest Interface
-    xenserver.vm.provision 'shell' do |s|
-      s.path = '../common/xenserver/configure-network.sh'
-      s.args = %w(eth3 na na GUEST)
+      ## Map host only networks and the adapters
+      xenserver.vm.provider 'virtualbox' do |v|
+        v.customize ['modifyvm', :id, '--nicpromisc2', 'allow-all']
+        v.customize ['modifyvm', :id, '--nicpromisc3', 'allow-all']
+        v.customize ['modifyvm', :id, '--nicpromisc4', 'allow-all']
+        v.customize ['modifyvm', :id, '--hostonlyadapter2', 'VirtualBox Host-Only Ethernet Adapter']
+        v.customize ['modifyvm', :id, '--hostonlyadapter3', 'VirtualBox Host-Only Ethernet Adapter #2']
+        v.customize ['modifyvm', :id, '--hostonlyadapter4', 'VirtualBox Host-Only Ethernet Adapter #3']
+        v.customize ["modifyvm", :id, '--nictype2', 'Am79C973']
+        v.customize ["modifyvm", :id, '--nictype3', 'Am79C973']
+        v.customize ["modifyvm", :id, '--nictype4', 'Am79C973']
+      end
+
+    else
+      ## Configure Management Interface
+      xenserver.vm.provision 'shell' do |s|
+        s.path = '../common/xenserver/configure-network.sh'
+        s.args = %w(eth1 192.168.22.10 255.255.255.0 MGMT)
+      end
+
+      ## Configure Public Interface
+      xenserver.vm.provision 'shell' do |s|
+        s.path = '../common/xenserver/configure-network.sh'
+        s.args = %w(eth2 na na PUBLIC)
+      end
+
+      ## Configure Guest Interface
+      xenserver.vm.provision 'shell' do |s|
+        s.path = '../common/xenserver/configure-network.sh'
+        s.args = %w(eth3 na na GUEST)
+      end
+
+      ## Map host only networks and the adapters
+      xenserver.vm.provider 'virtualbox' do |v|
+        v.customize ['modifyvm', :id, '--nicpromisc2', 'allow-all']
+        v.customize ['modifyvm', :id, '--nicpromisc3', 'allow-all']
+        v.customize ['modifyvm', :id, '--nicpromisc4', 'allow-all']
+        v.customize ['modifyvm', :id, '--hostonlyadapter2', 'vboxnet0']
+        v.customize ['modifyvm', :id, '--hostonlyadapter3', 'vboxnet1']
+        v.customize ['modifyvm', :id, '--hostonlyadapter4', 'vboxnet2']
+        v.customize ["modifyvm", :id, '--nictype2', 'Am79C973']
+        v.customize ["modifyvm", :id, '--nictype3', 'Am79C973']
+        v.customize ["modifyvm", :id, '--nictype4', 'Am79C973']
+      end
+
     end
 
     ## Tweak kernel
     xenserver.vm.provision "shell", inline: "sed -i -e 's/net.bridge.bridge-nf-call-iptables = 1/net.bridge.bridge-nf-call-iptables = 0/g' -e 's/net.bridge.bridge-nf-call-arptables = 1/net.bridge.bridge-nf-call-arptables = 0/g' /etc/sysctl.conf && /sbin/sysctl -p /etc/sysctl.conf"
-
-    ## Map host only networks and the adapters
-    xenserver.vm.provider 'virtualbox' do |v|
-      v.customize ['modifyvm', :id, '--nicpromisc2', 'allow-all']
-      v.customize ['modifyvm', :id, '--nicpromisc3', 'allow-all']
-      v.customize ['modifyvm', :id, '--nicpromisc4', 'allow-all']
-      v.customize ['modifyvm', :id, '--hostonlyadapter2', 'vboxnet0']
-      v.customize ['modifyvm', :id, '--hostonlyadapter3', 'vboxnet1']
-      v.customize ['modifyvm', :id, '--hostonlyadapter4', 'vboxnet2']
-      v.customize ["modifyvm", :id, '--nictype2', 'Am79C973']
-      v.customize ["modifyvm", :id, '--nictype3', 'Am79C973']
-      v.customize ["modifyvm", :id, '--nictype4', 'Am79C973']
-    end
   end
 
   config.vm.define 'management' do |management|
@@ -78,20 +114,34 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.customize ['modifyvm', :id, '--memory', 2048]
     end
 
-    management.vm.provider 'virtualbox' do |v|
-      v.customize ['modifyvm', :id, '--memory', 512]
-      v.customize ['modifyvm', :id, '--hostonlyadapter2', 'vboxnet0']
-      v.customize ['modifyvm', :id, '--hostonlyadapter3', 'vboxnet1']
-      v.customize ["modifyvm", :id, '--nictype2', 'Am79C973']
-      v.customize ["modifyvm", :id, '--nictype3', 'Am79C973']
+    if is_windows
+      management.vm.provider 'virtualbox' do |v|
+        v.customize ['modifyvm', :id, '--memory', 512]
+        v.customize ['modifyvm', :id, '--hostonlyadapter2', 'VirtualBox Host-Only Ethernet Adapter']
+        v.customize ['modifyvm', :id, '--hostonlyadapter3', 'VirtualBox Host-Only Ethernet Adapter #2']
+        v.customize ["modifyvm", :id, '--nictype2', 'Am79C973']
+        v.customize ["modifyvm", :id, '--nictype3', 'Am79C973']
+      end
+      management.librarian_chef.cheffile_dir = '..\common\management'
+    else
+      management.vm.provider 'virtualbox' do |v|
+        v.customize ['modifyvm', :id, '--memory', 512]
+        v.customize ['modifyvm', :id, '--hostonlyadapter2', 'vboxnet0']
+        v.customize ['modifyvm', :id, '--hostonlyadapter3', 'vboxnet1']
+        v.customize ["modifyvm", :id, '--nictype2', 'Am79C973']
+        v.customize ["modifyvm", :id, '--nictype3', 'Am79C973']
+      end
+      management.librarian_chef.cheffile_dir = '../common/management'
     end
 
     management.omnibus.chef_version = "11.16.0"
 
-    management.librarian_chef.cheffile_dir = '../common/management'
-
     management.vm.provision 'chef_solo' do |chef|
-      chef.cookbooks_path = ['../common/management/cookbooks']
+      if is_windows
+        chef.cookbooks_path = ['..\common\management\cookbooks']
+      else
+        chef.cookbooks_path = ['../common/management/cookbooks']
+      end
 
       chef.run_list = [
         'recipe[nat-router]',
