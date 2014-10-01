@@ -22,11 +22,19 @@ Github will email project authors and they will be able to assist best, going of
 
 ## Getting started
 
+1. Due to the large amount of data to be pulled from the Internet, it's probably not a good idea to do this over WiFi.
+
 1. Ensure your system has `git` installed.
+
+1. When on Windows, make sure you've set the git option `autocrlf` to `false`:
+
+      ```
+      git config --global core.autocrlf false
+      ```
 
 1. Clone the repository:
 
-	```bash
+	```
 	git clone https://github.com/imduffy15/devcloud4.git
 	```
 
@@ -48,6 +56,11 @@ Github will email project authors and they will be able to assist best, going of
 
 1. Configure your adapters as follows:
 
+   - On Windows, the adapternames are different, and map as follows:
+     - vboxnet0: VirtualBox Host-Only Ethernet Adapter 4
+     - vboxnet1: VirtualBox Host-Only Ethernet Adapter 2
+     - vboxnet2: VirtualBox Host-Only Ethernet Adapter 3
+    
     #### For Basic Networking you only need:
 
     ##### vboxnet0
