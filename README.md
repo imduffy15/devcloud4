@@ -39,6 +39,9 @@ Github will email project authors and they will be able to assist best, going of
 	```
 
 1. Download and Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+   
+   On Windows7, the Xenserver VM crashed immediately after booting with a General Protection Fault. 
+   Installing VirtualBox version 4.3.6r91406 (https://www.virtualbox.org/wiki/Download_Old_Builds_4_3) fixed the problem, but only downgrade if the latest version does not work for you.
  
 1. Download and install [Vagrant](https://www.vagrantup.com/downloads.html)
 
