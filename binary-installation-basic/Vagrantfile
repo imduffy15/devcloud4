@@ -1,8 +1,13 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-VAGRANTFILE_API_VERSION = '2'
+xenserver_networking_script = File.join(File.dirname(__FILE__), '.provision-utils', 'configure-network.sh')
 
+is_windows = (RUBY_PLATFORM =~ /mswin|mingw|cygwin/)
+
+virtualbox_interface_0 = if is_windows then 'VirtualBox Host-Only Ethernet Adapter' else 'vboxnet0' end
+
+VAGRANTFILE_API_VERSION = '2'
 Vagrant.require_version '>= 1.5.0'
 
 unless Vagrant.has_plugin?('vagrant-berkshelf')
@@ -20,14 +25,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     ## Configure Management Interface
     xenserver.vm.provision 'shell' do |s|
-      s.path = '.provision-utils/configure-network.sh'
+      s.path = xenserver_networking_script
       s.args = %w(eth1 192.168.22.10 255.255.255.0 MGMT)
     end
 
     ## Map host only networks and the adapters
     xenserver.vm.provider 'virtualbox' do |v|
       v.customize ['modifyvm', :id, '--nicpromisc2', 'allow-all']
-      v.customize ['modifyvm', :id, '--hostonlyadapter2', 'vboxnet0']
+      v.customize ['modifyvm', :id, '--hostonlyadapter2', virtualbox_interface_0]
       v.customize ['modifyvm', :id, '--memory', 6144]
     end
   end
@@ -42,7 +47,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     management.vm.provider 'virtualbox' do |v|
       v.customize ['modifyvm', :id, '--memory', 2048]
-      v.customize ['modifyvm', :id, '--hostonlyadapter2', 'vboxnet0']
+      v.customize ['modifyvm', :id, '--hostonlyadapter2', virtualbox_interface_0]
     end
 
     if Vagrant.has_plugin?('vagrant-cachier')
@@ -51,8 +56,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       management.omnibus.cache_packages = true
     end
 
-    management.omnibus.chef_version = :latest
-    management.berkshelf.berksfile_path = './Berksfile'
+    management.omnibus.chef_version = :latest 
+    management.berkshelf.berksfile_path = File.join(File.dirname(__FILE__), 'Berksfile')
     management.berkshelf.enabled = true
 
 
