@@ -77,15 +77,15 @@
     },
     "mgtSvr": [
         {
-            "mgtSvrIp": "192.168.22.5",
-            "port": 8096
+            "mgtSvrIp": "<%= @management_server_ip %>",
+            "port": <%= @management_server_port %>
         }
     ],
     "dbSvr": {
-        "dbSvr": "127.0.0.1",
-        "port": 3306,
-        "user": "cloud",
-        "passwd": "cloud",
-        "db": "cloud"
+        "dbSvr": "<%= @database_server_ip %>",
+        "port": <%= @database_server_port %>,
+        "user": "<%= @database_user %>",
+        "passwd": "<%= @database_password %>",
+        "db": "<%= @database %>"
     }
 }
