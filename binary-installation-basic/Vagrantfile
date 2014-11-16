@@ -14,6 +14,24 @@ unless Vagrant.has_plugin?('vagrant-omnibus')
 end
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.vm.define 'xenserver' do |xenserver|
+    xenserver.vm.box = 'duffy/xenserver'
+
+    ## Configure Management Interface
+    xenserver.vm.provision 'shell' do |s|
+      s.path = '.provision-utils/configure-network.sh'
+      s.args = %w(eth1 192.168.22.10 255.255.255.0 MGMT)
+    end
+
+    ## Map host only networks and the adapters
+    xenserver.vm.provider 'virtualbox' do |v|
+      v.customize ['modifyvm', :id, '--nicpromisc2', 'allow-all']
+      v.customize ['modifyvm', :id, '--hostonlyadapter2', 'vboxnet0']
+      v.customize ['modifyvm', :id, '--memory', 6144]
+    end
+  end
+  
   config.vm.define 'management' do |management|
     management.vm.box = 'chef/centos-6.5'
 
