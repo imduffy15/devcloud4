@@ -88,11 +88,3 @@ Github will email project authors and they will be able to assist best, going of
     - DHCP server disabled
     
     
-    
-![Host only network](http://ianduffy.ie/cloudstack/gsoc2014/Screen%20Shot%202014-06-16%20at%2019.23.04.png)
-
-
-![Host only network configuration ip IP](http://ianduffy.ie/cloudstack/gsoc2014/Screen%20Shot%202014-09-19%20at%2011.00.46.png)
-
-
-![Host only network configuration dhcp](http://ianduffy.ie/cloudstack/gsoc2014/Screen%20Shot%202014-09-19%20at%2011.00.50.png)
