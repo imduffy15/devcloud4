@@ -27,9 +27,9 @@
         "xenserver": "http://packages.shapeblue.com/systemvmtemplate/4.3/4.3.1/systemvm64template-2014-11-04-4.3.1-xen.vhd.bz2"
       },
       "configuration": "/vagrant/marvin.cfg.erb",
-      "yum_repo": "http://packages.bhaisaab.org/cloudstack/testing/centos/4.3/",
-      "apt_repo": "http://packages.bhaisaab.org/cloudstack/testing/debian/4.3/",
-      "version": "4.3.2"
+      "yum_repo": "http://packages.shapeblue.com/cloudstack/upstream/centos/4.3/",
+      "apt_repo": "http://packages.shapeblue.com/cloudstack/upstream/centos/4.3/",
+      "version": "4.3.1"
   },
   "iptables": {
     "lans": ["eth1", "eth2"]
