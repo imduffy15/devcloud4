@@ -6,7 +6,7 @@ description 'Automates the creation of a basic networking cloudstack environment
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version '0.1.0'
 
-depends 'mysql', '> 5.2.0'
+depends 'mysql', '= 5.6.1'
 depends 'cloudstack', '>= 3.0.0'
 depends 'nfs', '>= 2.0.0'
 
