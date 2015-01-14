@@ -85,7 +85,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       management.omnibus.cache_packages = true
     end
 
-    management.omnibus.chef_version = :latest 
+    management.omnibus.chef_version = "11.16.4" 
     management.berkshelf.berksfile_path = File.join(File.dirname(__FILE__), 'Berksfile')
     management.berkshelf.enabled = true
 
