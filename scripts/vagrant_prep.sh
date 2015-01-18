@@ -37,7 +37,7 @@ vagrant_mod() {
 
 case $1 in
 	vbox)
-		plugin_checks=("librarian-chef" "omnibus")
+		plugin_checks=("berkshelf" "omnibus")
 		vagrant_mod
 		;;
 	*)

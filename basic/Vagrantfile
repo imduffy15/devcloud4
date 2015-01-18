@@ -55,17 +55,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       chef.run_list = [
           'recipe[cloudstack::default]'
       ]
-
-      chef.json = {
-        "cloudstack" => {
-          "systemvms" => [
-            {
-              "hypervisor" => "XenServer",
-              "url" =>  "http://jenkins.buildacloud.org/view/4.4/job/cloudstack-4.4-systemvm64/130/artifact/tools/appliance/dist/systemvm64template-4.4-2014-09-28-xen.vhd.bz2"
-            }
-          ]
-        }
-      }
     end
   end
 end
