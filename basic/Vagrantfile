@@ -5,8 +5,8 @@ VAGRANTFILE_API_VERSION = '2'
 
 Vagrant.require_version '>= 1.5.0'
 
-unless Vagrant.has_plugin?('vagrant-librarian-chef')
-  raise 'vagrant-librarian-chef is not installed!'
+unless Vagrant.has_plugin?('vagrant-berkshelf')
+  raise 'vagrant-berkshelf is not installed!'
 end
 
 unless Vagrant.has_plugin?('vagrant-omnibus')
@@ -47,13 +47,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.customize ["modifyvm", :id, '--nictype2', 'Am79C973']
     end
 
-    management.omnibus.chef_version = "11.16.0"
-
-    management.librarian_chef.cheffile_dir = '../common/management'
+    management.omnibus.chef_version = "11.16.4" 
+    management.berkshelf.berksfile_path = File.join(File.dirname(__FILE__), 'Berksfile')
+    management.berkshelf.enabled = true
 
     management.vm.provision 'chef_solo' do |chef|
-      chef.cookbooks_path = ['../common/management/cookbooks']
-
       chef.run_list = [
           'recipe[cloudstack::default]'
       ]
