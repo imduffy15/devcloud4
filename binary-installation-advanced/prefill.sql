@@ -14,4 +14,4 @@ INSERT INTO `cloud`.`configuration` (instance, name, value) VALUE('DEFAULT', 'ex
 INSERT INTO `cloud`.`configuration` (instance, name, value) VALUE('DEFAULT', 'expunge.interval', '60');
 INSERT INTO `cloud`.`configuration` (instance, name, value) VALUE('DEFAULT', 'management.network.cidr', '0.0.0.0/0');
 INSERT INTO `cloud`.`configuration` (instance, name, value) VALUE('DEFAULT', 'secstorage.allowed.internal.sites', '0.0.0.0/0');
-UPDATE `cloud`.`vm_template` SET unique_name="Ubuntu 14.04",name="Ubuntu 14.04",url="http://dl.openvm.eu/cloudstack/ubuntu/vanilla/jenkins/ubuntu-xen-1414530798.vhd.bz2",checksum="ce6a65641bfe8668d11268db308557e3",display_text="Ubuntu 14.04" where id=5;
+UPDATE `cloud`.`vm_template` SET unique_name="Macchinina",name="Macchinina",url="http://dl.openvm.eu/cloudstack/macchinina/x86_64/macchinina-xen.vhd.bz2",checksum="30985504bc31bf0cd3b9d2c6ca7944d3",display_text="Macchinina" where id=5;
