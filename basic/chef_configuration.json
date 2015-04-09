@@ -1,0 +1,13 @@
+{
+  "run_list": [
+    "recipe[cloudstack]"
+  ],
+  "cloudstack": {
+    "systemvms": [
+      {
+        "hypervisor": "XenServer",
+        "url": "http://packages.shapeblue.com/systemvmtemplate/4.5/systemvm64template-4.5-xen.vhd.bz2"
+      }
+    ]
+  }
+}

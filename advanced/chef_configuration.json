@@ -1,0 +1,16 @@
+{
+  "run_list": [
+    "recipe[cloudstack]"
+  ],
+  "iptables": {
+    "lans": ["eth1", "eth2"]
+  },
+  "cloudstack": {
+    "systemvms": [
+      {
+        "hypervisor": "XenServer",
+        "url": "http://packages.shapeblue.com/systemvmtemplate/4.5/systemvm64template-4.5-xen.vhd.bz2"
+      }
+    ]
+  }
+}

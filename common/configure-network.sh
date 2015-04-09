@@ -1,3 +1,5 @@
+#!/bin/bash
+# Usage ./reset-network.sh interface ip netmask
 #
 #  Licensed to the Apache Software Foundation (ASF) under one
 #  or more contributor license agreements.  See the NOTICE file
@@ -17,10 +19,19 @@
 #  under the License.
 #
 
-source "https://api.berkshelf.com"
+[ $# -lt 3 ] && { echo -e "Missing arguments\nUsage: ./reset-network interface ip netmask label"; exit 1; }
 
-cookbook 'hostname'
-cookbook 'selinux'
-cookbook 'nat-router', git: 'http://github.com/imduffy15/cookbook_nat-router'
-cookbook 'cloudstack', git: 'https://github.com/imduffy15/cookbook_cloudstack-1'
-cookbook 'cloudstack_vagrant_environment', path: '../common/cloudstack_vagrant_environment'
+. /etc/xensource-inventory
+
+PIF=$(/usr/bin/xe pif-introduce device=$1 host-uuid=${INSTALLATION_UUID})
+
+NETWORKPIF=$(/usr/bin/xe pif-list uuid=${PIF} params="network-uuid" --minimal)
+/usr/bin/xe network-param-set uuid=${NETWORKPIF} name-label=${4}
+
+if [ ${4} == "MGMT" ]
+then
+	/usr/bin/xe pif-reconfigure-ip uuid=${PIF} mode=static ip=${2} netmask=${3}
+	/usr/bin/xe host-management-reconfigure pif-uuid=${PIF}
+else
+	/usr/bin/xe pif-plug uuid=${PIF}
+fi

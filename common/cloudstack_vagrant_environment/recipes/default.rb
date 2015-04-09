@@ -17,10 +17,11 @@
 #  under the License.
 #
 
-source "https://api.berkshelf.com"
+service 'iptables' do
+  action [:disable, :stop]
+  only_if { platform?(%w{redhat centos fedora oracle}) }
+end
 
-cookbook 'hostname'
-cookbook 'selinux'
-cookbook 'nat-router', git: 'http://github.com/imduffy15/cookbook_nat-router'
-cookbook 'cloudstack', git: 'https://github.com/imduffy15/cookbook_cloudstack-1'
-cookbook 'cloudstack_vagrant_environment', path: '../common/cloudstack_vagrant_environment'
+include_recipe 'cloudstack_vagrant_environment::nfsshares'
+include_recipe 'cloudstack_vagrant_environment::database_server'
+include_recipe 'cloudstack_vagrant_environment::management_server'

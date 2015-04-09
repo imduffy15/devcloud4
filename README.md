@@ -14,15 +14,11 @@ The included VagrantFile will give you:
 
  - XenServer 6.2
 
-## Issue reporting
-
-Please use the issue reporting feature on github for reporting any issues you experience.
-
-Github will email project authors and they will be able to assist best, going off to mailing lists, forums, question sites etc. is not helpful and will not benefit the quality of this project.
-
 ## Getting started
 
-1. Due to the large amount of data to be pulled from the Internet, it's probably not a good idea to do this over WiFi.
+1. Due to the large amount of data to be pulled from the Internet, it's probably not a good idea to do this over WiFi or Mobile data.
+
+1. Given the amount of virtual machines this brings up it is recommended you have atleast 8gb of ram before attempting this.
 
 1. Ensure your system has `git` installed.
 
@@ -48,9 +44,11 @@ Github will email project authors and they will be able to assist best, going of
 1. Ensure all Vagrant Plugins are installed:
 
 	```bash
-	cd /path/to/cloned/repo
-	bash scripts/vagrant_prep.sh vbox
+	vagrant plugin install vagrant-berkshelf vagrant-omnibus
 	```
+
+1. Download and install [ChefDK](https://downloads.chef.io/chef-dk/)
+
 ### Configure virtualbox
 
 1. Open virtualbox and navigate to its preferences/settings window. 
@@ -86,5 +84,18 @@ Github will email project authors and they will be able to assist best, going of
     - IPv4 IP address of 192.168.24.1
     - Subnet of 255.255.255.0
     - DHCP server disabled
-    
+
+## Defaults
+
+### Management Server
+
+ - IP: 192.168.22.5
+ - Username: vagrant or root
+ - Password: vagrant
+
+### Hypervisor
+
+ - IP: 192.168.22.10
+ - Username: root
+ - Password: password
     

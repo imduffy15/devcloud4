@@ -17,10 +17,6 @@
 #  under the License.
 #
 
-source "https://api.berkshelf.com"
-
-cookbook 'hostname'
-cookbook 'selinux'
-cookbook 'nat-router', git: 'http://github.com/imduffy15/cookbook_nat-router'
-cookbook 'cloudstack', git: 'https://github.com/imduffy15/cookbook_cloudstack-1'
-cookbook 'cloudstack_vagrant_environment', path: '../common/cloudstack_vagrant_environment'
+default['mysql']['server_root_password'] = node['cloudstack']['db']['rootpassword']
+default['mysql']['allow_remote_root'] = true
+default['mysql']['data_dir'] = '/data/mysql'

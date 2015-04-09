@@ -17,10 +17,32 @@
 #  under the License.
 #
 
-source "https://api.berkshelf.com"
+include_recipe 'nfs::server'
 
-cookbook 'hostname'
-cookbook 'selinux'
-cookbook 'nat-router', git: 'http://github.com/imduffy15/cookbook_nat-router'
-cookbook 'cloudstack', git: 'https://github.com/imduffy15/cookbook_cloudstack-1'
-cookbook 'cloudstack_vagrant_environment', path: '../common/cloudstack_vagrant_environment'
+directory node['cloudstack']['secondary']['path'] do
+  owner 'root'
+  group 'root'
+  action :create
+  recursive true
+end
+
+nfs_export node['cloudstack']['secondary']['path'] do
+  network '*'
+  writeable true
+  sync false
+  options %w(no_root_squash no_subtree_check)
+end
+
+directory node['cloudstack']['primary']['path'] do
+  owner 'root'
+  group 'root'
+  action :create
+  recursive true
+end
+
+nfs_export node['cloudstack']['primary']['path'] do
+  network '*'
+  writeable true
+  sync false
+  options %w(no_root_squash no_subtree_check)
+end

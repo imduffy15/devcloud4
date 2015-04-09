@@ -7,7 +7,7 @@
 1. Configure your adapters as follows:
 
     ##### vboxnet0
-    - IPv4 IP address of 192.168.56.1
+    - IPv4 IP address of 192.168.22.1
     - Subnet of 255.255.255.0
     - DHCP server disabled
     
@@ -79,5 +79,5 @@ vagrant up
 1. Deploying:
 
     ```
-    python -m marvin.deployDataCenter -i /path/to/GSoC-2014/repo/basic/basic.json 
+    python -m marvin.deployDataCenter -i marvin.cfg 
     ```

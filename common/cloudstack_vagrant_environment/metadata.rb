@@ -17,10 +17,26 @@
 #  under the License.
 #
 
-source "https://api.berkshelf.com"
+name 'cloudstack_vagrant_environment'
+maintainer 'Ian Duffy'
+maintainer_email 'ian@ianduffy.ie'
+license 'Apache 2'
+description 'Automates the creation of a basic networking cloudstack environment.'
+long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
+version '0.1.0'
 
-cookbook 'hostname'
-cookbook 'selinux'
-cookbook 'nat-router', git: 'http://github.com/imduffy15/cookbook_nat-router'
-cookbook 'cloudstack', git: 'https://github.com/imduffy15/cookbook_cloudstack-1'
-cookbook 'cloudstack_vagrant_environment', path: '../common/cloudstack_vagrant_environment'
+depends 'mysql', '= 5.6.1'
+depends 'cloudstack', '>= 3.0.0'
+depends 'nfs', '>= 2.0.0'
+
+supports 'centos'
+supports 'redhat'
+supports 'debian'
+supports 'ubuntu'
+supports 'fedora'
+supports 'oracle'
+
+provides 'cloudstack_vagrant_environment::default'
+provides 'cloudstack_vagrant_environment::management_server'
+provides 'cloudstack_vagrant_environment::database_server'
+provides 'cloudstack_vagrant_environment::nfs_server'
