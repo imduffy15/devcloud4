@@ -73,7 +73,7 @@ vagrant up
 
 	```
 	cd /path/to/cloudstack/repo
-	pip install tools/marvin/dist/Marvin-0.1.0.tar.gz
+	pip install tools/marvin/dist/Marvin-4.6.0-SNAPSHOT.tar.gz --allow-external mysql-connector-python
 	```
 
 1. Deploying:

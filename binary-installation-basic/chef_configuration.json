@@ -1,6 +1,6 @@
 {
   "run_list": [
-    "recipe[cloudstack_vagrant_environment]",
+    "recipe[binary-installation]",
     "recipe[nat-router]"
   ],
   "set_fqdn": "*.localdomain",

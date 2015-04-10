@@ -17,11 +17,13 @@
 #  under the License.
 #
 
-source "https://api.berkshelf.com"
+default['cloudstack']['secondary']['host'] = node['ipaddress']
+default['cloudstack']['secondary']['path'] = '/data/secondary'
+default['cloudstack']['secondary']['mgt_path'] = node['cloudstack']['secondary']['path']
 
-cookbook 'hostname'
-cookbook 'selinux'
-cookbook 'nat-router', git: 'http://github.com/imduffy15/cookbook_nat-router'
-cookbook 'cloudstack', git: 'https://github.com/imduffy15/cookbook_cloudstack-1'
-cookbook 'development-installation', path: '../common/development-installation'
-cookbook 'python', git: 'https://github.com/imduffy15/python.git'
+default['cloudstack']['primary']['host'] = node['ipaddress']
+default['cloudstack']['primary']['path'] = '/data/primary'
+default['cloudstack']['primary']['mgt_path'] = node['cloudstack']['primary']['path']
+
+default['cloudstack']['cloud-install-sys-tmplt'] = "#{Chef::Config['file_cache_path']}/cloud-install-sys-tmplt"
+default['cloudstack']['createtmplt'] = "#{Chef::Config['file_cache_path']}/createtmplt.sh"

@@ -17,11 +17,32 @@
 #  under the License.
 #
 
-service 'iptables' do
-  action [:disable, :stop]
-  only_if { platform?(%w{redhat centos fedora oracle}) }
+include_recipe 'nfs::server'
+
+directory node['cloudstack']['secondary']['path'] do
+  owner 'root'
+  group 'root'
+  action :create
+  recursive true
 end
 
-include_recipe 'cloudstack_vagrant_environment::nfsshares'
-include_recipe 'cloudstack_vagrant_environment::database_server'
-include_recipe 'cloudstack_vagrant_environment::management_server'
+nfs_export node['cloudstack']['secondary']['path'] do
+  network '*'
+  writeable true
+  sync false
+  options %w(no_root_squash no_subtree_check)
+end
+
+directory node['cloudstack']['primary']['path'] do
+  owner 'root'
+  group 'root'
+  action :create
+  recursive true
+end
+
+nfs_export node['cloudstack']['primary']['path'] do
+  network '*'
+  writeable true
+  sync false
+  options %w(no_root_squash no_subtree_check)
+end

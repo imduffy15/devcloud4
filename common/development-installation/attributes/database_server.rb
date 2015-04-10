@@ -17,11 +17,6 @@
 #  under the License.
 #
 
-source "https://api.berkshelf.com"
-
-cookbook 'hostname'
-cookbook 'selinux'
-cookbook 'nat-router', git: 'http://github.com/imduffy15/cookbook_nat-router'
-cookbook 'cloudstack', git: 'https://github.com/imduffy15/cookbook_cloudstack-1'
-cookbook 'development-installation', path: '../common/development-installation'
-cookbook 'python', git: 'https://github.com/imduffy15/python.git'
+default['mysql']['server_root_password'] = ''
+default['mysql']['allow_remote_root'] = true
+default['mysql']['data_dir'] = '/data/mysql'

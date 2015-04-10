@@ -111,6 +111,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     CHEF_CONFIGURATION = JSON.parse(Pathname(__FILE__).dirname.join('chef_configuration.json').read)
 
     management.vm.provision :chef_solo do |chef|
+      chef.log_level = :debug
       chef.run_list = CHEF_CONFIGURATION.delete('run_list')
       chef.json = CHEF_CONFIGURATION
     end

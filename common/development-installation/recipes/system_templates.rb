@@ -17,11 +17,22 @@
 #  under the License.
 #
 
-source "https://api.berkshelf.com"
+cookbook_file 'cloud-install-sys-tmplt' do
+  action :create_if_missing
+  mode 0755
+  path node['cloudstack']['cloud-install-sys-tmplt']
+end
 
-cookbook 'hostname'
-cookbook 'selinux'
-cookbook 'nat-router', git: 'http://github.com/imduffy15/cookbook_nat-router'
-cookbook 'cloudstack', git: 'https://github.com/imduffy15/cookbook_cloudstack-1'
-cookbook 'development-installation', path: '../common/development-installation'
-cookbook 'python', git: 'https://github.com/imduffy15/python.git'
+cookbook_file 'createtmplt.sh' do
+  action :create_if_missing
+  mode 0755
+  path node['cloudstack']['createtmplt']
+end
+
+cloudstack_system_template 'xenserver' do
+  template_id '1'
+  nfs_path node['cloudstack']['secondary']['path']
+  nfs_server node['cloudstack']['secondary']['host']
+  url node['cloudstack']['hypervisor_tpl']['xenserver']
+  action :create
+end
