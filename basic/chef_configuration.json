@@ -16,10 +16,7 @@
         "path": "/exports/primary"
       },
       "hypervisor_tpl": {
-        "xenserver": "http://packages.shapeblue.com/systemvmtemplate/4.5/systemvm64template-4.5-xen.vhd.bz2"
-      },
-      "yum_repo": "http://packages.shapeblue.com/cloudstack/testing/centos/4.5/",
-      "apt_repo": "http://packages.shapeblue.com/cloudstack/testing/debian/4.5/",
-      "version": "4.5.0"
+        "xenserver": "http://jenkins.buildacloud.org/job/build-systemvm64-master/lastSuccessfulBuild/artifact/tools/appliance/dist/systemvm64template-master-4.6.0-xen.vhd.bz2"
+      }
   }
 }

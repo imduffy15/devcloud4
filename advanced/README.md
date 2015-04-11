@@ -69,7 +69,7 @@ vagrant up
 
 	```bash
 	cd /path/to/cloudstack/repo
-	mvn -P developer -pl developer,tools/devcloud -Ddeploydb
+	mvn -P developer -pl developer,tools/devcloud4 -Ddeploydb
 	```
 
 1. Start Cloudstack:
